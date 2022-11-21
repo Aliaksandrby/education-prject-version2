@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Car</title>
+</head>
+<body>
+<h1 align="center">Add new car</h1>
+<div align="center">
+    <form action="/admin/add/car/new" method="post">
+
+        <label for="name">Name: </label><br>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="year">year: </label><br>
+        <input type="number" id="year" name="year" required><br>
+
+        <label for="engineDescription">engineDescription: </label><br>
+        <input type="text" id="engineDescription" name="engineDescription" required><br>
+
+        <label for="transmission">transmission: </label><br>
+        <input type="text" id="transmission" name="transmission" required><br>
+
+        <label for="price">price: </label><br>
+        <input type="number" id="price" name="price" required><br>
+
+        <label for="pathToImage">pathToImage: </label><br>
+        <input type="text" id="pathToImage" name="pathToImage" required><br>
+
+        <br>
+        <input type="submit">
+    </form>
+</div>
+
+
+
+
+
+</body>
+</html>

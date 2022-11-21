@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cars</title>
+    <style>
+		#avrDiv {
+			margin-left: auto;
+			margin-right: auto;
+			width: 300px;
+		}
+
+		.warning {
+			border: 1px ridge black;
+			background-color: white;
+			padding: 1rem;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.warning img {
+			width: 280px;
+		}
+
+		.warning p {
+			font: small-caps bold 1.2rem sans-serif;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+    <h1 align="center">HAVE FUN WITH CARSHARE</h1>
+    <h6 align="center"><a href="">LOGIN</a></h6>
+    <div th:each="car : ${carList}">
+        <div id="avrDiv" class="warning" >
+            <div align="center"><a th:href="@{/guest/{id}(id=${car.id})}"><img th:src="${car.pathToImageList.get(0)}"></a></div>
+            <a th:href="@{/guest/{id}(id=${car.id})}"><p th:text="${car.name}"></p></a>
+            <div align="center">
+                year: <span th:text="${car.year}"></span><br>
+                engine description: <span th:text="${car.engineDescription}"></span><br>
+                transmission: <span th:text="${car.transmission}"></span><br>
+                <b>price: <span th:text="${car.price}"></span></b><br>
+            </div>
+        </div>
+        <br>
+    </div>
+</body>
+</html>

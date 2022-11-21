@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administration Service</title>
+    <style type="text/css">
+		#table {
+			border: 1px solid #dddddd;
+			border-collapse: collapse;
+			width: 50%;
+			margin: auto;
+			background: #f2fff5;
+		}
+
+		#table th {
+			font-weight: bold;
+			padding: 5px 10px;
+			background: #efefef;
+			border: 1px solid #dddddd;
+			text-align: center;
+			vertical-align: middle;
+		}
+
+		#table td {
+			border: 1px solid #dddddd;
+			padding: 5px 10px;
+			text-align: center;
+			vertical-align: middle;
+		}
+
+		A {
+			text-decoration: none; /* Убирает подчеркивание для ссылок */
+		}
+</style>
+</head>
+<body>
+<h1 align="center">Administration Service</h1>
+<table id="table">
+    <tbody>
+    <tr>
+        <td>WORKS WITH CARS</td>
+        <td><button><a href="/admin/carList">SHOW CARS</a></button></td>
+    </tr>
+    <tr>
+        <td>WORKS WITH USERS</td>
+        <td><button><a href="/admin/userList">SHOW USERS</a></button></td>
+    </tr>
+    <tr>
+        <td>WORKS WITH ORDERS</td>
+        <td><button><a href="/admin/orderList">SHOW ORDERS</a></button></td>
+    </tr>
+    <tr>
+        <td>WORKS WITH PAYMENTS</td>
+        <td><button><a href="/admin/paymentList">SHOW PAYMENTS</a></button></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .rounded {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+            font-size: 14px;
+            border-radius: 10px;
+            border-spacing: 0;
+            text-align: center;
+        }
+
+        .rounded th {
+            background: #BCEBDD;
+            color: white;
+            text-shadow: 0 1px 1px #2D2020;
+            padding: 10px 20px;
+        }
+
+        .rounded th, .rounded td {
+            border-style: solid;
+            border-width: 0 1px 1px 0;
+            border-color: white;
+        }
+
+        .rounded th:first-child, .rounded td:first-child {
+            text-align: left;
+        }
+
+        .rounded th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .rounded th:last-child {
+            border-top-right-radius: 10px;
+            border-right: none;
+        }
+
+        .rounded td {
+            padding: 10px 20px;
+            background: #F8E391;
+        }
+
+        .rounded tr:last-child td:first-child {
+            border-radius: 0 0 0 10px;
+        }
+
+        .rounded tr:last-child td:last-child {
+            border-radius: 0 0 10px 0;
+        }
+
+        .rounded tr td:last-child {
+            border-right: none
+        }
+    </style>
+</head>
+<body>
+<h3 align="center"><strong>Description user</strong></h3>
+<table class="rounded" align="center">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>USERNAME</th>
+        <th>PASSWORD</th>
+        <th>EMAIL</th>
+        <th>PHONE</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.password}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.phone}"></td>
+        <td><button><a th:href="@{/admin/delete/user/{id}(id=${user.id})}">Delete user</a></button></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3 align="center">Edit user</h3>
+<div align="center">
+    <form th:action="@{/admin/edit/user/{id}(id=${user.id})}" method="post">
+
+        <label for="username">Username: </label><br>
+        <input type="text" id="username" name="username" required><br>
+
+        <label for="password">Password: </label><br>
+        <input type="password" id="password" name="password" required><br>
+
+        <label for="repeatPassword">Repeat password: </label><br>
+        <input type="password" id="repeatPassword" name="repeatPassword" required><br>
+
+        <label for="email">Email: </label><br>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="phone">Phone: </label><br>
+        <input type="text" id="phone" name="phone" required><br>
+
+        <br>
+        <input type="submit">
+    </form>
+</div>
+</body>
+</html>
