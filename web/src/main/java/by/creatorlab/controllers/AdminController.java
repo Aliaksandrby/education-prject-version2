@@ -1,23 +1,29 @@
 package by.creatorlab.controllers;
 
-import by.creatorlab.entities.Car;
-import by.creatorlab.entities.Order;
-import by.creatorlab.entities.Payment;
-import by.creatorlab.entities.User;
-import by.creatorlab.services.CarService;
+import by.creatorlab.Dao.DaoImpl;
+import by.creatorlab.config.DataConfig;
+import by.creatorlab.config.MysqlSessionFactory;
+import by.creatorlab.entities.*;
 import by.creatorlab.services.OrderService;
 import by.creatorlab.services.PaymentService;
 import by.creatorlab.services.UserService;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
 
 @Controller
 public class AdminController {
+
+    private List<Car> carList;
+    private Car car;
+    private SessionFactory sessionFactory = MysqlSessionFactory
+            .getInstance(DataConfig.JDBC_PROPERTIES,DataConfig.HIBERNATE_PROPERTIES);
 
 //----------------------------------------------------------------------------------------
     @GetMapping("/admin")
@@ -28,15 +34,16 @@ public class AdminController {
 //----------------------------------------------------------------------------------------
     @GetMapping("/admin/carList")
     public String viewCarList(Model model) {
-        List<Car> carList = new CarService().getCarList();
+        carList = new DaoImpl(sessionFactory).readAll();
         model.addAttribute("carList",carList);
+
         System.out.println("@GetMapping");//
         return "admin/cars/carList";
     }
 
     @GetMapping("/admin/car/{id}")
-    public String viewCar(Model model, @PathVariable("id") int id) { // int to Long
-        Car car = new CarService().getCarList().get(id-1);
+    public String viewCar(Model model, @PathVariable("id") int id) {
+        car = new DaoImpl(sessionFactory).findById(id);
 
         model.addAttribute("car",car);
         System.out.println("@GetMapping");//
@@ -44,23 +51,28 @@ public class AdminController {
     }
 
     @PostMapping("/admin/edit/car/{id}")
-    public String editCar(HttpServletRequest request,Model model, @PathVariable("id") int id) { // int to Long
-        Car car = new CarService().getCarList().get(id-1);
+    public String editCar(HttpServletRequest request,Model model, @PathVariable("id") int id) {
+        car = new DaoImpl(sessionFactory).findById(id);
+
         String name = request.getParameter("name");
         int year = Integer.parseInt(request.getParameter("year"));
         String engineDescription = request.getParameter("engineDescription");
         String transmission = request.getParameter("transmission");
         int price = Integer.parseInt(request.getParameter("price"));
-        String pathToImage = request.getParameter("pathToImage");
+        String[] pathToImage = request.getParameterValues("pathToImage");
 
-        /*car.setName(name);
+        car.setName(name);
         car.setYear(year);
         car.setEngineDescription(engineDescription);
         car.setTransmission(transmission);
         car.setPrice(price);
-        car.setPathToImageList(List.of(pathToImage));*/
+        //car.setPathToImageList(List.of(pathToImage));//do something with foto car
+        for (String str : pathToImage) {
+            System.out.println(pathToImage);
+        }
 
-        System.out.println(car);
+
+        new DaoImpl(sessionFactory).update(car);
 
         model.addAttribute("car",car);
         System.out.println("EDIT SUCCESS!!!!!!!!!! @PostMapping"); //
@@ -69,8 +81,11 @@ public class AdminController {
 
     @GetMapping("/admin/delete/car/{id}")
     public String deleteCar(Model model, @PathVariable("id") int id) {
-        List<Car> carList = new CarService().getCarList();
-        //Car car = new CarService().getCarList().get(id-1);
+        car = new DaoImpl(sessionFactory).findById(id);
+        System.out.println(car);
+        new DaoImpl(sessionFactory).delete(car);
+
+        carList = new DaoImpl(sessionFactory).readAll();
 
         model.addAttribute("carList",carList);
         System.out.println("DELETE SUCCESS!!!!!! @GetMapping");//
@@ -93,27 +108,28 @@ public class AdminController {
         int price = Integer.parseInt(request.getParameter("price"));
         String pathToImage = request.getParameter("pathToImage");
 
+        int max = new DaoImpl(sessionFactory).readAll().size();
+
         Car car = new Car();
-        //car.setId(25L); //
+        car.setId(max+1);
         car.setName(name);
         car.setYear(year);
         car.setEngineDescription(engineDescription);
         car.setTransmission(transmission);
         car.setPrice(price);
-        car.setPathToImageList(List.of(pathToImage));
 
+        File file = new File("/somefolder");
+        file.mkdir();
+
+        //car.setPathToImageList(List.of(pathToImage));
         System.out.println(car.getId());
-        System.out.println(car.getName());
-        System.out.println(car.getYear());
-        System.out.println(car.getEngineDescription());
-        System.out.println(car.getTransmission());
-        System.out.println(car.getPrice());
-        System.out.println(car.getPathToImageList().get(0));
+        System.out.println(car.getImageList());
 
+
+        //new DaoImpl(sessionFactory).create(car);
 
         model.addAttribute("car",car);
-
-        System.out.println("@PostMapping"); //
+        System.out.println("@PostMapping add car"); //
         return "admin/cars/car";
     }
 

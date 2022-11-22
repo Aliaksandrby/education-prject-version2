@@ -1,26 +1,26 @@
 package by.creatorlab.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "t_car")
 public class Car {
 
-    private final String NAME_SEQ = "car_seq";
-
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = NAME_SEQ)
-    @SequenceGenerator(name = NAME_SEQ, allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "car_seq")
+    @SequenceGenerator(name = "car_seq", sequenceName = "t_car_seq", allocationSize = 1)
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -37,9 +37,22 @@ public class Car {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "path_to_image")
-    private List<String> pathToImageList;
 
+    @OneToMany(fetch = FetchType.EAGER,
+              mappedBy = "car",
+              cascade = CascadeType.ALL)
+    private List<ImageCar> imageList;
 
-
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", year=" + year +
+                ", engineDescription='" + engineDescription + '\'' +
+                ", transmission='" + transmission + '\'' +
+                ", price=" + price +
+                ", imageList=" + imageList +
+                '}';
+    }
 }

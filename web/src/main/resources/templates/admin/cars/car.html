@@ -100,8 +100,8 @@
 <body>
 <h1 align="center" th:text="${car.name}"></h1>
 <div id="main">
-    <div id="avrDiv" class="warning" th:each="carImage : ${car.pathToImageList}">
-        <img th:src="${carImage}">
+    <div id="avrDiv" class="warning" th:each="carImage : ${car.imageList}">
+        <img th:src="${carImage.pathImage}">
     </div>
 </div>
 
@@ -127,22 +127,22 @@
     <form th:action="@{/admin/edit/car/{id}(id=${car.id})}" method="post">
 
         <label for="name">Name car: </label><br>
-        <input type="text" id="name" name="name" required><br>
+        <input type="text" id="name" name="name" th:value="${car.name}"><br>
 
         <label for="year">Year car: </label><br>
-        <input type="number" id="year" name="year" required><br>
+        <input type="number" id="year" name="year" th:value="${car.year}"><br>
 
         <label for="engineDescription">Engine Description: </label><br>
-        <input type="text" id="engineDescription" name="engineDescription" required><br>
+        <input type="text" id="engineDescription" name="engineDescription" th:value="${car.engineDescription}"><br>
 
         <label for="transmission">Type transmission: </label><br>
-        <input type="text" id="transmission" name="transmission" required><br>
+        <input type="text" id="transmission" name="transmission" th:value="${car.transmission}"><br>
 
         <label for="price">Price: </label><br>
-        <input type="number" id="price" name="price" required><br>
+        <input type="number" id="price" name="price" th:value="${car.price}"><br>
 
         <label for="pathToImage">Path to image: </label><br>
-        <input type="text" id="pathToImage" name="pathToImage" required><br>
+        <input type="file" id="pathToImage" multiple name="pathToImage"><br>
 
         <br>
         <input type="submit">

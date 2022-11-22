@@ -36,7 +36,7 @@
 <div th:each="car : ${carList}">
     <a th:href="@{/admin/car/{id}(id=${car.id})}">
     <div id="avrDiv" class="warning">
-        <div align="center"><img th:src="${car.pathToImageList.get(0)}"></div>
+        <div align="center"><img th:src="${car.imageList.get(0).pathImage}"></div>
         <p th:text="${car.name}"></p>
         <div align="center">
             year: <span th:text="${car.year}"></span><br>

@@ -98,8 +98,8 @@
 <body>
 <h1 align="center" th:text="${car.name}"></h1>
 <div id="main">
-    <div id="avrDiv" class="warning" th:each="carImage : ${car.pathToImageList}">
-        <img th:src="${carImage}">
+    <div id="avrDiv" class="warning" th:each="carImage : ${car.imageList}">
+        <img th:src="${carImage.pathImage}">
     </div>
 </div>
 

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="Aliaksandrby">
+        <sql>
+            CREATE TABLE IF NOT EXISTS t_car (
+                id INT NOT NULL PRIMARY KEY,
+                name VARCHAR(200),
+                year INT,
+                engine_description VARCHAR(200),
+                transmission VARCHAR(100),
+                price INT
+            );
+
+            CREATE TABLE IF NOT EXISTS t_car_seq (
+            next_val INT UNSIGNED PRIMARY KEY NOT NULL
+            );
+            INSERT INTO t_car_seq VALUES (0);
+
+            CREATE TABLE IF NOT EXISTS t_image_car (
+                id INT NOT NULL PRIMARY KEY,
+                car_id INT,
+                path_image VARCHAR(100),
+                FOREIGN KEY (car_id) REFERENCES t_car (id)
+            );
+
+            CREATE TABLE IF NOT EXISTS t_image_car_seq (
+            next_val INT UNSIGNED PRIMARY KEY NOT NULL
+            );
+            INSERT INTO t_image_car_seq VALUES (0);
+        </sql>
+    </changeSet>
+    <changeSet id="2" author="Aliaksandrby">
+        <sql>
+            INSERT INTO t_car
+            VALUES (1,'AUDI A7',2012,'gas/3000','automatic',100),
+            (2,'BMW 5 GRAN TURISMO',2012,'gas/3500','automatic',120),
+            (3,'BMW X1',2012,'gas/2000','automatic',80),
+            (4,'CITROEN C4',2012,'gas/1600','automatic',60),
+            (5,'KIA VENGA',2011,'gas/1600','automatic',50),
+            (6,'MERCEDES BENZ E CLASS W212',2013,'gas/1800','automatic',90),
+            (7,'PEJO 308',2010,'gas/1600','automatic',40),
+            (8,'PORSHE PANAMERA GTS',2014,'gas/4800','automatic',200),
+            (9,'SKODA RAPID',2016,'gas/1600','automatic',60),
+            (10,'VOLKSWAGEN CARAVELLE',2010,'disel/2200','automatic',90),
+            (11,'VOLKSWAGEN PASSAT CC',2013,'gas/1800','automatic',110),
+            (12,'VOLKSWAGEN POLO',2014,'gas/1600','automatic',50);
+
+            INSERT INTO t_image_car
+            VALUES(1,1,'/img/car/1/1.jpg'),
+            (2,1,'/img/car/1/2.jpg'),
+            (3,1,'/img/car/1/3.jpg'),
+            (4,1,'/img/car/1/4.jpg'),
+            (5,2,'/img/car/2/1.jpg'),
+            (6,2,'/img/car/2/2.jpg'),
+            (7,2,'/img/car/2/3.jpg'),
+            (8,2,'/img/car/2/4.jpg'),
+            (9,2,'/img/car/2/5.jpg'),
+            (10,2,'/img/car/2/6.jpg'),
+            (11,3,'/img/car/3/1.jpg'),
+            (12,3,'/img/car/3/2.jpg'),
+            (13,3,'/img/car/3/3.jpg'),
+            (14,3,'/img/car/3/4.jpg'),
+            (15,4,'/img/car/4/1.jpg'),
+            (16,4,'/img/car/4/2.jpg'),
+            (17,4,'/img/car/4/3.jpg'),
+            (18,4,'/img/car/4/4.jpg'),
+            (19,5,'/img/car/5/1.jpg'),
+            (20,5,'/img/car/5/2.jpg'),
+            (21,5,'/img/car/5/3.jpg'),
+            (22,6,'/img/car/6/1.jpg'),
+            (23,6,'/img/car/6/2.jpg'),
+            (24,6,'/img/car/6/3.jpg'),
+            (25,6,'/img/car/6/4.jpg'),
+            (26,7,'/img/car/7/1.jpg'),
+            (27,7,'/img/car/7/2.jpg'),
+            (28,7,'/img/car/7/3.jpg'),
+            (29,7,'/img/car/7/4.jpg'),
+            (30,7,'/img/car/7/5.jpg'),
+            (31,8,'/img/car/8/1.jpg'),
+            (32,8,'/img/car/8/2.jpg'),
+            (33,8,'/img/car/8/3.jpg'),
+            (34,8,'/img/car/8/4.jpg'),
+            (35,9,'/img/car/9/1.jpg'),
+            (36,9,'/img/car/9/2.jpg'),
+            (37,9,'/img/car/9/3.jpg'),
+            (38,9,'/img/car/9/4.jpg'),
+            (39,10,'/img/car/10/1.jpg'),
+            (40,10,'/img/car/10/2.jpg'),
+            (41,10,'/img/car/10/3.jpg'),
+            (42,10,'/img/car/10/4.jpg'),
+            (43,10,'/img/car/10/5.jpg'),
+            (44,10,'/img/car/10/6.jpg'),
+            (45,10,'/img/car/10/7.jpg'),
+            (46,11,'/img/car/11/1.jpg'),
+            (47,11,'/img/car/11/2.jpg'),
+            (48,11,'/img/car/11/3.jpg'),
+            (49,11,'/img/car/11/4.jpg'),
+            (50,11,'/img/car/11/5.jpg'),
+            (51,11,'/img/car/11/6.jpg'),
+            (52,12,'/img/car/12/1.jpg'),
+            (53,12,'/img/car/12/2.jpg'),
+            (54,12,'/img/car/12/3.jpg'),
+            (55,12,'/img/car/12/4.jpg'),
+            (56,12,'/img/car/12/5.jpg'),
+            (57,12,'/img/car/12/6.jpg');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
+
+
