@@ -35,8 +35,6 @@ public class AdminController {
     @GetMapping("/admin/carList")
     public String viewCarList(Model model) {
         carList = new DaoImpl(sessionFactory).readAll();
-
-        //model.addAttribute("mainImageCar",mainImageCar);
         model.addAttribute("carList",carList);
         System.out.println("@GetMapping");//
         return "admin/cars/carList";
