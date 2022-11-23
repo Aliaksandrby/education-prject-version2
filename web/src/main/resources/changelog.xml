@@ -16,6 +16,7 @@
                 price INT
             );
 
+            <!--if we use another generator-->
             <!--CREATE TABLE IF NOT EXISTS t_car_seq (
             next_val INT UNSIGNED PRIMARY KEY NOT NULL
             );
@@ -28,6 +29,7 @@
                 FOREIGN KEY (car_id) REFERENCES t_car (id)
             );
 
+            <!--if we use another generator-->
             <!--CREATE TABLE IF NOT EXISTS t_image_car_seq (
             next_val INT UNSIGNED PRIMARY KEY NOT NULL
             );

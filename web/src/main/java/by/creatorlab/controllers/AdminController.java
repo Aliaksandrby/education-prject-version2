@@ -107,24 +107,14 @@ public class AdminController {
         int price = Integer.parseInt(request.getParameter("price"));
         String[] images = request.getParameterValues("images");
 
-
-
-        //int max = new DaoImpl(sessionFactory).readAll().size();
-
         Car car = new Car();
-        //car.setId(13);
         car.setName(name);
         car.setYear(year);
         car.setEngineDescription(engineDescription);
         car.setTransmission(transmission);
         car.setPrice(price);
 
-        //File file = new File("/somefolder"); //create forder disc C:
-        //System.out.println(file.mkdir());
-        //File file = new File()
         // for (String str : images) System.out.println(str);
-
-        //System.out.println(car);
 
         new DaoImpl(sessionFactory).create(car);
         Car newCar =  new DaoImpl(sessionFactory).findById(car.getId());

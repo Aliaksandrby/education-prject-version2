@@ -22,8 +22,7 @@ public class ImageCar {
     //@SequenceGenerator(name = "image_car_seq", sequenceName = "t_image_car_seq",allocationSize = 1)
     private Integer id;
 
-    @ManyToOne (fetch=FetchType.EAGER,
-            cascade=CascadeType.ALL)
+    @ManyToOne (fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn (name="car_id")
     private Car car;
 

@@ -12,12 +12,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "t_user")
 public class User {
-    private final String NAME_SEQ = "user_seq";
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = NAME_SEQ)
-    @SequenceGenerator(name = NAME_SEQ, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "username")
@@ -25,6 +23,8 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    private String confirmPassword;
 
     @Column(name = "email")
     private String email;
