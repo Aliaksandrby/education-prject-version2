@@ -13,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.List;
@@ -98,14 +101,16 @@ public class AdminController {
     }
 
     @PostMapping("/admin/add/car/new")
-    public String createCar(HttpServletRequest request,Model model) {
+    public String createCar(HttpServletRequest request, @RequestParam("files") MultipartFile[] files, Model model) {
 
         String name = request.getParameter("name");
         int year = Integer.parseInt(request.getParameter("year"));
         String engineDescription = request.getParameter("engineDescription");
         String transmission = request.getParameter("transmission");
         int price = Integer.parseInt(request.getParameter("price"));
-        String[] images = request.getParameterValues("images");
+        //String[] images = request.getParameterValues("images");
+
+        //System.out.println(files);
 
         Car car = new Car();
         car.setName(name);

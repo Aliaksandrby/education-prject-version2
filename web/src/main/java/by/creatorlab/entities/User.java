@@ -24,7 +24,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    private String confirmPassword;
+    //private String confirmPassword;
 
     @Column(name = "email")
     private String email;
