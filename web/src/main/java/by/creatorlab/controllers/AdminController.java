@@ -35,8 +35,9 @@ public class AdminController {
     @GetMapping("/admin/carList")
     public String viewCarList(Model model) {
         carList = new DaoImpl(sessionFactory).readAll();
-        model.addAttribute("carList",carList);
 
+        //model.addAttribute("mainImageCar",mainImageCar);
+        model.addAttribute("carList",carList);
         System.out.println("@GetMapping");//
         return "admin/cars/carList";
     }
@@ -106,29 +107,31 @@ public class AdminController {
         String engineDescription = request.getParameter("engineDescription");
         String transmission = request.getParameter("transmission");
         int price = Integer.parseInt(request.getParameter("price"));
-        String pathToImage = request.getParameter("pathToImage");
+        String[] images = request.getParameterValues("images");
 
-        int max = new DaoImpl(sessionFactory).readAll().size();
+
+
+        //int max = new DaoImpl(sessionFactory).readAll().size();
 
         Car car = new Car();
-        car.setId(max+1);
+        //car.setId(13);
         car.setName(name);
         car.setYear(year);
         car.setEngineDescription(engineDescription);
         car.setTransmission(transmission);
         car.setPrice(price);
 
-        File file = new File("/somefolder");
-        file.mkdir();
+        //File file = new File("/somefolder"); //create forder disc C:
+        //System.out.println(file.mkdir());
+        //File file = new File()
+        // for (String str : images) System.out.println(str);
 
-        //car.setPathToImageList(List.of(pathToImage));
-        System.out.println(car.getId());
-        System.out.println(car.getImageList());
+        //System.out.println(car);
 
+        new DaoImpl(sessionFactory).create(car);
+        Car newCar =  new DaoImpl(sessionFactory).findById(car.getId());
 
-        //new DaoImpl(sessionFactory).create(car);
-
-        model.addAttribute("car",car);
+        model.addAttribute("car",newCar);
         System.out.println("@PostMapping add car"); //
         return "admin/cars/car";
     }

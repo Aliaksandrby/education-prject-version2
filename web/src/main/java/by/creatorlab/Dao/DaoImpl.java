@@ -20,7 +20,7 @@ public class DaoImpl implements Dao {
         Transaction tx = null;
         try (Session session = sessionFactory.openSession()) {
             tx = session.beginTransaction();
-            session.saveOrUpdate(car);
+            session.save(car);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -39,7 +39,15 @@ public class DaoImpl implements Dao {
 
     @Override
     public void update(Car car) {
-        create(car);
+        Transaction tx = null;
+        try (Session session = sessionFactory.openSession()) {
+            tx = session.beginTransaction();
+            session.update(car);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            throw e;
+        }
     }
 
     @Override

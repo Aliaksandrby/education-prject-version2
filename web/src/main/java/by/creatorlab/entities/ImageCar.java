@@ -17,8 +17,9 @@ public class ImageCar {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "image_car_seq")
-    @SequenceGenerator(name = "image_car_seq", sequenceName = "t_image_car_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "image_car_seq")
+    //@SequenceGenerator(name = "image_car_seq", sequenceName = "t_image_car_seq",allocationSize = 1)
     private Integer id;
 
     @ManyToOne (fetch=FetchType.EAGER,

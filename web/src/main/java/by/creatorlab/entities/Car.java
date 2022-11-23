@@ -18,8 +18,9 @@ public class Car {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "car_seq")
-    @SequenceGenerator(name = "car_seq", sequenceName = "t_car_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "car_seq")
+    //@SequenceGenerator(name = "car_seq", sequenceName = "t_car_seq", allocationSize = 1)
     private Integer id;
 
     @Column(name = "name")
@@ -42,6 +43,8 @@ public class Car {
               mappedBy = "car",
               cascade = CascadeType.ALL)
     private List<ImageCar> imageList;
+
+
 
     @Override
     public String toString() {
