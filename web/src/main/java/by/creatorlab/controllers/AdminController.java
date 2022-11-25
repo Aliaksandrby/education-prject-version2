@@ -1,12 +1,15 @@
 package by.creatorlab.controllers;
 
 import by.creatorlab.Dao.DaoImpl;
+import by.creatorlab.Dao.ImageDao;
+import by.creatorlab.Dao.ImageDaoImpl;
 import by.creatorlab.config.DataConfig;
 import by.creatorlab.config.MysqlSessionFactory;
 import by.creatorlab.entities.*;
 import by.creatorlab.services.OrderService;
 import by.creatorlab.services.PaymentService;
 import by.creatorlab.services.UserService;
+//import org.apache.commons.codec.base64.Base64;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
+import java.io.*;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -101,16 +105,13 @@ public class AdminController {
     }
 
     @PostMapping("/admin/add/car/new")
-    public String createCar(HttpServletRequest request, @RequestParam("files") MultipartFile[] files, Model model) {
+    public String createCar(HttpServletRequest request, Model model, @RequestParam("images") MultipartFile images) throws IOException {
 
         String name = request.getParameter("name");
         int year = Integer.parseInt(request.getParameter("year"));
         String engineDescription = request.getParameter("engineDescription");
         String transmission = request.getParameter("transmission");
         int price = Integer.parseInt(request.getParameter("price"));
-        //String[] images = request.getParameterValues("images");
-
-        //System.out.println(files);
 
         Car car = new Car();
         car.setName(name);
@@ -119,11 +120,44 @@ public class AdminController {
         car.setTransmission(transmission);
         car.setPrice(price);
 
-        // for (String str : images) System.out.println(str);
-
         new DaoImpl(sessionFactory).create(car);
-        Car newCar =  new DaoImpl(sessionFactory).findById(car.getId());
 
+        String img = "/img/";
+        String backUp = request.getSession().getServletContext().getRealPath(img);
+        System.out.println(backUp);
+
+        /*ImageCar imageCar = new ImageCar();
+        imageCar.setCar(car);
+        imageCar.setImage("");
+        new ImageDaoImpl(sessionFactory).create(imageCar);*/
+
+        /*String img = "/img/";
+        String realPathtoUploads =
+                request.getSession().getServletContext().getRealPath(uploadsDir);
+        if(! new File(realPathtoUploads).exists()) {
+            new File(realPathtoUploads).mkdir();
+        }
+        String orgName = images.getOriginalFilename();
+        String filePath = realPathtoUploads + orgName;
+        File dest = new File(filePath);
+        System.out.println(dest);
+        images.transferTo(dest);*/
+
+        /*System.out.println(this.getClass().getClassLoader().getResource("static"));
+        String storeImage = System.getProperty("user.dir") + "/img/cars/" + car.getId();
+        new File(storeImage).mkdir();
+        for ( MultipartFile image : images) {
+            Path fileNameAndPath = Paths.get(storeImage, image.getOriginalFilename());
+            Files.write(fileNameAndPath, image.getBytes());
+            String pathName = storeImage + "/" + image.getOriginalFilename();
+            System.out.println(pathName);
+            ImageCar imageCar = new ImageCar();
+            imageCar.setPathImage(pathName);
+            imageCar.setCar(car);
+            new ImageDaoImpl(sessionFactory).create(imageCar);
+        }*/
+
+        Car newCar =  new DaoImpl(sessionFactory).findById(car.getId());
         model.addAttribute("car",newCar);
         System.out.println("@PostMapping add car"); //
         return "admin/cars/car";

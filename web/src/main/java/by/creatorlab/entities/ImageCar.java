@@ -18,24 +18,23 @@ public class ImageCar {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "image_car_seq")
-    //@SequenceGenerator(name = "image_car_seq", sequenceName = "t_image_car_seq",allocationSize = 1)
     private Integer id;
 
     @ManyToOne (fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn (name="car_id")
     private Car car;
 
-    @Column(name = "path_image")
-    private String pathImage;
+    @Lob
+    @Column(name = "image")
+    private String image;
 
-    @Override
+    /*@Override
     public String toString() {
         return "{" +
                 "id=" + getId() +
                 ", car=" + car.getId() +
-                ", pathImage='" + getPathImage() + '\'' +
+                ", pathImage='" + getImage() + '\'' +
                 '}';
-    }
+    }*/
 }
 

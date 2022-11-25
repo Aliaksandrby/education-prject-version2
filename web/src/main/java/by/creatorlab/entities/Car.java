@@ -19,8 +19,6 @@ public class Car {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "car_seq")
-    //@SequenceGenerator(name = "car_seq", sequenceName = "t_car_seq", allocationSize = 1)
     private Integer id;
 
     @Column(name = "name")
@@ -46,7 +44,7 @@ public class Car {
 
 
 
-    @Override
+    /*@Override
     public String toString() {
         return "Car{" +
                 "id=" + id +
@@ -57,5 +55,5 @@ public class Car {
                 ", price=" + price +
                 ", imageList=" + imageList +
                 '}';
-    }
+    }*/
 }
