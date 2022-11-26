@@ -24,4 +24,30 @@ public class ImageDaoImpl implements ImageDao {
             throw e;
         }
     }
+
+    @Override
+    public void delete(ImageCar imageCar) {
+        Transaction tx = null;
+        try (Session session = sessionFactory.openSession()) {
+            tx = session.beginTransaction();
+            session.delete(imageCar);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            throw e;
+        }
+    }
+
+    @Override
+    public void update(ImageCar imageCar) {
+        Transaction tx = null;
+        try (Session session = sessionFactory.openSession()) {
+            tx = session.beginTransaction();
+            session.update(imageCar);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            throw e;
+        }
+    }
 }

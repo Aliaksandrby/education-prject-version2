@@ -20,12 +20,12 @@ public class ImageCar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne (fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @ManyToOne (fetch=FetchType.EAGER)
     @JoinColumn (name="car_id")
     private Car car;
 
     @Lob
-    @Column(name = "image")
+    @Column(name = "image",columnDefinition = "MEDIUMBLOB")
     private String image;
 
     /*@Override

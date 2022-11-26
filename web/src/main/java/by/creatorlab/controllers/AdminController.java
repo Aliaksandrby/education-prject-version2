@@ -1,7 +1,6 @@
 package by.creatorlab.controllers;
 
 import by.creatorlab.Dao.DaoImpl;
-import by.creatorlab.Dao.ImageDao;
 import by.creatorlab.Dao.ImageDaoImpl;
 import by.creatorlab.config.DataConfig;
 import by.creatorlab.config.MysqlSessionFactory;
@@ -9,7 +8,6 @@ import by.creatorlab.entities.*;
 import by.creatorlab.services.OrderService;
 import by.creatorlab.services.PaymentService;
 import by.creatorlab.services.UserService;
-//import org.apache.commons.codec.base64.Base64;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,144 +24,87 @@ import java.util.List;
 
 @Controller
 public class AdminController {
-
-    private List<Car> carList;
-    private Car car;
-    private SessionFactory sessionFactory = MysqlSessionFactory
+    private final SessionFactory sessionFactory = MysqlSessionFactory
             .getInstance(DataConfig.JDBC_PROPERTIES,DataConfig.HIBERNATE_PROPERTIES);
 
 //----------------------------------------------------------------------------------------
     @GetMapping("/admin")
     public String mainAdmin() {
-        System.out.println("@GetMapping");//
         return "admin/admin";
     }
 //----------------------------------------------------------------------------------------
     @GetMapping("/admin/carList")
     public String viewCarList(Model model) {
-        carList = new DaoImpl(sessionFactory).readAll();
+        List<Car> carList = new DaoImpl(sessionFactory).readAll();
         model.addAttribute("carList",carList);
-        System.out.println("@GetMapping");//
         return "admin/cars/carList";
     }
 
     @GetMapping("/admin/car/{id}")
     public String viewCar(Model model, @PathVariable("id") int id) {
-        car = new DaoImpl(sessionFactory).findById(id);
-
+        Car car = new DaoImpl(sessionFactory).findById(id);
         model.addAttribute("car",car);
-        System.out.println("@GetMapping");//
         return "admin/cars/car";
     }
 
     @PostMapping("/admin/edit/car/{id}")
-    public String editCar(HttpServletRequest request,Model model, @PathVariable("id") int id) {
-        car = new DaoImpl(sessionFactory).findById(id);
+    public String editCar(HttpServletRequest request,Model model, @PathVariable("id") int id,@RequestParam("images") MultipartFile[] images) throws IOException {
 
-        String name = request.getParameter("name");
-        int year = Integer.parseInt(request.getParameter("year"));
-        String engineDescription = request.getParameter("engineDescription");
-        String transmission = request.getParameter("transmission");
-        int price = Integer.parseInt(request.getParameter("price"));
-        String[] pathToImage = request.getParameterValues("pathToImage");
-
-        car.setName(name);
-        car.setYear(year);
-        car.setEngineDescription(engineDescription);
-        car.setTransmission(transmission);
-        car.setPrice(price);
-        //car.setPathToImageList(List.of(pathToImage));//do something with foto car
-        for (String str : pathToImage) {
-            System.out.println(pathToImage);
-        }
-
-
+        Car car = new DaoImpl(sessionFactory).findById(id);
+        car.setName(request.getParameter("name"));
+        car.setYear(Integer.parseInt(request.getParameter("year")));
+        car.setEngineDescription(request.getParameter("engineDescription"));
+        car.setTransmission(request.getParameter("transmission"));
+        car.setPrice(Integer.parseInt(request.getParameter("price")));
         new DaoImpl(sessionFactory).update(car);
 
+        for (ImageCar imageCar : car.getImageList()) new ImageDaoImpl(sessionFactory).delete(imageCar);
+
+        for (MultipartFile image : images) {
+            ImageCar imageCar = new ImageCar();
+            imageCar.setCar(car);
+            imageCar.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
+            new ImageDaoImpl(sessionFactory).create(imageCar);
+        }
+
         model.addAttribute("car",car);
-        System.out.println("EDIT SUCCESS!!!!!!!!!! @PostMapping"); //
         return "admin/cars/car";
     }
 
     @GetMapping("/admin/delete/car/{id}")
     public String deleteCar(Model model, @PathVariable("id") int id) {
-        car = new DaoImpl(sessionFactory).findById(id);
-        System.out.println(car);
+        Car car = new DaoImpl(sessionFactory).findById(id);
         new DaoImpl(sessionFactory).delete(car);
-
-        carList = new DaoImpl(sessionFactory).readAll();
-
+        List<Car> carList = new DaoImpl(sessionFactory).readAll();
         model.addAttribute("carList",carList);
-        System.out.println("DELETE SUCCESS!!!!!! @GetMapping");//
         return "admin/cars/carList";
     }
 
     @GetMapping("/admin/add/car")
     public String addCar() {
-        System.out.println("@GetMapping");//
         return "admin/cars/formForNewCar";
     }
 
     @PostMapping("/admin/add/car/new")
-    public String createCar(HttpServletRequest request, Model model, @RequestParam("images") MultipartFile images) throws IOException {
-
-        String name = request.getParameter("name");
-        int year = Integer.parseInt(request.getParameter("year"));
-        String engineDescription = request.getParameter("engineDescription");
-        String transmission = request.getParameter("transmission");
-        int price = Integer.parseInt(request.getParameter("price"));
-
+    public String createCar(HttpServletRequest request, Model model, @RequestParam("images") MultipartFile[] images) throws IOException {
         Car car = new Car();
-        car.setName(name);
-        car.setYear(year);
-        car.setEngineDescription(engineDescription);
-        car.setTransmission(transmission);
-        car.setPrice(price);
-
+        car.setName(request.getParameter("name"));
+        car.setYear(Integer.parseInt(request.getParameter("year")));
+        car.setEngineDescription(request.getParameter("engineDescription"));
+        car.setTransmission(request.getParameter("transmission"));
+        car.setPrice(Integer.parseInt(request.getParameter("price")));
         new DaoImpl(sessionFactory).create(car);
-
-        String img = "/img/";
-        String backUp = request.getSession().getServletContext().getRealPath(img);
-        System.out.println(backUp);
-
-        /*ImageCar imageCar = new ImageCar();
-        imageCar.setCar(car);
-        imageCar.setImage("");
-        new ImageDaoImpl(sessionFactory).create(imageCar);*/
-
-        /*String img = "/img/";
-        String realPathtoUploads =
-                request.getSession().getServletContext().getRealPath(uploadsDir);
-        if(! new File(realPathtoUploads).exists()) {
-            new File(realPathtoUploads).mkdir();
-        }
-        String orgName = images.getOriginalFilename();
-        String filePath = realPathtoUploads + orgName;
-        File dest = new File(filePath);
-        System.out.println(dest);
-        images.transferTo(dest);*/
-
-        /*System.out.println(this.getClass().getClassLoader().getResource("static"));
-        String storeImage = System.getProperty("user.dir") + "/img/cars/" + car.getId();
-        new File(storeImage).mkdir();
-        for ( MultipartFile image : images) {
-            Path fileNameAndPath = Paths.get(storeImage, image.getOriginalFilename());
-            Files.write(fileNameAndPath, image.getBytes());
-            String pathName = storeImage + "/" + image.getOriginalFilename();
-            System.out.println(pathName);
+        for (MultipartFile image : images) {
             ImageCar imageCar = new ImageCar();
-            imageCar.setPathImage(pathName);
             imageCar.setCar(car);
+            imageCar.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
             new ImageDaoImpl(sessionFactory).create(imageCar);
-        }*/
+        }
 
         Car newCar =  new DaoImpl(sessionFactory).findById(car.getId());
         model.addAttribute("car",newCar);
-        System.out.println("@PostMapping add car"); //
         return "admin/cars/car";
     }
-
-    //Todo: search cars
 //----------------------------------------------------------------------------------------
     @GetMapping("/admin/userList")
     public String viewUserList(Model model) {

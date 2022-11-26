@@ -95,10 +95,11 @@
 <h1 align="center" th:text="${car.name}"></h1>
 <div id="main">
     <div id="avrDiv" class="warning" th:each="carImage : ${car.imageList}">
-        <img th:src="${carImage.image}">
+        <img th:src="${carImage.image.equals('')} ? '/img/car/noAuto.png' : ${'data:image/jpeg;base64,'+{carImage.image}}">
     </div>
 </div>
-
+<h3 align="center"><a href="/admin">return to administration service</a></h3>
+<h3 align="center"><a href="/admin/carList">return to car list</a></h3>
 <h3 align="center"><strong>Description car</strong></h3>
 <table class="rounded" align="center">
     <tr>
@@ -118,7 +119,7 @@
 </table>
 <h3 align="center">Edit this car</h3>
 <div align="center">
-    <form th:action="@{/admin/edit/car/{id}(id=${car.id})}" method="post">
+    <form th:action="@{/admin/edit/car/{id}(id=${car.id})}" method="post" enctype="multipart/form-data">
 
         <label for="name">Name car: </label><br>
         <input type="text" id="name" name="name" th:value="${car.name}"><br>
@@ -135,8 +136,8 @@
         <label for="price">Price: </label><br>
         <input type="number" id="price" name="price" th:value="${car.price}"><br>
 
-        <label for="pathToImage">Path to image: </label><br>
-        <input type="file" id="pathToImage" multiple name="pathToImage"><br>
+        <label for="images">images: </label><br>
+        <input type="file" id="images" multiple name="images"><br>
 
         <br>
         <input type="submit">

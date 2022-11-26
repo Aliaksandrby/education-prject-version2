@@ -39,7 +39,7 @@ public class Car {
 
     @OneToMany(fetch = FetchType.EAGER,
               mappedBy = "car",
-              cascade = CascadeType.ALL)
+              cascade = CascadeType.REMOVE)
     private List<ImageCar> imageList;
 
 

@@ -30,13 +30,12 @@
 </head>
 <body>
 <h1 align="center">Admin Car List</h1>
-<h6 align="center"><a href="/admin/add/car">ADD CAR</a></h6>
-<h6 align="center"><a href="">Search CAR</a></h6>
-
+<h3 align="center"><a href="/admin/add/car">ADD CAR</a></h3>
+<h3 align="center"><a href="/admin">return to administration service</a></h3>
 <div th:each="car : ${carList}">
     <div id="avrDiv" class="warning">
         <a th:href="@{/admin/car/{id}(id=${car.id})}">
-        <div align="center"><img th:src="${car.imageList.size()==0} ? '/img/car/noAuto.png' : ${car.imageList.get(0).image}"></div> <!---->
+        <div align="center"><img th:src="${car.imageList.get(0).image.equals('')} ? '/img/car/noAuto.png' : ${'data:image/jpeg;base64,'+{car.imageList.get(0).image}}"></div>
         <p th:text="${car.name}"></p>
         <div align="center">
             year: <span th:text="${car.year}"></span><br>

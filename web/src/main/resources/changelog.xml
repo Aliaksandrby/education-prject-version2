@@ -16,7 +16,7 @@
                 price INT
             );
 
-            <!--if we use another generator-->
+            <!--if we use sequence generator-->
             <!--CREATE TABLE IF NOT EXISTS t_car_seq (
             next_val INT UNSIGNED PRIMARY KEY NOT NULL
             );
@@ -25,23 +25,18 @@
             CREATE TABLE IF NOT EXISTS t_image_car (
                 id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                 car_id INT,
-                image VARCHAR(200),
+                image MEDIUMBLOB,
                 FOREIGN KEY (car_id) REFERENCES t_car (id)
             );
 
-            <!--CREATE TABLE IF NOT EXISTS t_image (
-                id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                image MEDIUMBLOB
-            );-->
-
-            <!--if we use another generator-->
+            <!--if we use sequence generator-->
             <!--CREATE TABLE IF NOT EXISTS t_image_car_seq (
             next_val INT UNSIGNED PRIMARY KEY NOT NULL
             );
             INSERT INTO t_image_car_seq VALUES (0);-->
         </sql>
     </changeSet>
-    <changeSet id="2" author="Aliaksandrby">
+    <!--<changeSet id="2" author="Aliaksandrby">
         <sql>
             INSERT INTO t_car (name,year,engine_description,transmission,price)
             VALUES
@@ -73,7 +68,7 @@
             (11,'/img/car/11/1.jpg'),(11,'/img/car/11/2.jpg'),(11,'/img/car/11/3.jpg'),(11,'/img/car/11/4.jpg'),(11,'/img/car/11/5.jpg'),(11,'/img/car/11/6.jpg'),
             (12,'/img/car/12/1.jpg'),(12,'/img/car/12/2.jpg'),(12,'/img/car/12/3.jpg'),(12,'/img/car/12/4.jpg'),(12,'/img/car/12/5.jpg'),(12,'/img/car/12/6.jpg');
         </sql>
-    </changeSet>
+    </changeSet>-->
 
 </databaseChangeLog>
 

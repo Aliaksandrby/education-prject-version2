@@ -55,7 +55,6 @@ public class DaoImpl implements Dao {
         Transaction tx = null;
         try (Session session = sessionFactory.openSession()) {
             tx = session.beginTransaction();
-            //session.refresh();
             session.delete(car);
             tx.commit();
         } catch (Exception e) {
