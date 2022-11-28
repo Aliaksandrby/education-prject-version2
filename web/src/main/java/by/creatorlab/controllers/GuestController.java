@@ -1,9 +1,9 @@
 package by.creatorlab.controllers;
 
-import by.creatorlab.Dao.DaoImpl;
-import by.creatorlab.config.DataConfig;
-import by.creatorlab.config.MysqlSessionFactory;
-import by.creatorlab.entities.Car;
+import by.creatorlab.dao.DaoImpl;
+import by.creatorlab.configuration.DataConfig;
+import by.creatorlab.configuration.MysqlSessionFactory;
+import by.creatorlab.model.Car;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

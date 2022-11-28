@@ -29,9 +29,6 @@
 			text-align: center;
 		}
 
-
-
-
 		div {
 			border: 1px solid #fff;
 			margin:20px;
@@ -41,9 +38,6 @@
 		#main>div{
 			display: inline-block;
 		}
-
-
-
 
         .rounded {
             font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -101,7 +95,7 @@
 <h1 align="center" th:text="${car.name}"></h1>
 <div id="main">
     <div id="avrDiv" class="warning" th:each="carImage : ${car.imageList}">
-        <img th:src="${carImage.pathImage}">
+        <img th:src="${carImage.image.equals('')} ? '/img/car/noAuto.png' : ${'data:image/jpeg;base64,'+{carImage.image}}">
     </div>
 </div>
 

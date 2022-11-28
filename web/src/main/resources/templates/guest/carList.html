@@ -33,7 +33,7 @@
     <h6 align="center"><a href="">LOGIN</a></h6>
     <div th:each="car : ${carList}">
         <div id="avrDiv" class="warning" >
-            <div align="center"><a th:href="@{/guest/{id}(id=${car.id})}"><img th:src="${car.imageList.get(0).pathImage}"></a></div>
+            <div align="center"><a th:href="@{/guest/{id}(id=${car.id})}"><img th:src="${car.imageList.get(0).image.equals('')} ? '/img/car/noAuto.png' : ${'data:image/jpeg;base64,'+{car.imageList.get(0).image}}"></a></div>
             <a th:href="@{/guest/{id}(id=${car.id})}"><p th:text="${car.name}"></p></a>
             <div align="center">
                 year: <span th:text="${car.year}"></span><br>

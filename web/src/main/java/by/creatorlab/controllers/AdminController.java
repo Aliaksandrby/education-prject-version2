@@ -1,10 +1,10 @@
 package by.creatorlab.controllers;
 
-import by.creatorlab.Dao.DaoImpl;
-import by.creatorlab.Dao.ImageDaoImpl;
-import by.creatorlab.config.DataConfig;
-import by.creatorlab.config.MysqlSessionFactory;
-import by.creatorlab.entities.*;
+import by.creatorlab.dao.DaoImpl;
+import by.creatorlab.dao.ImageDaoImpl;
+import by.creatorlab.configuration.DataConfig;
+import by.creatorlab.configuration.MysqlSessionFactory;
+import by.creatorlab.model.*;
 import by.creatorlab.services.OrderService;
 import by.creatorlab.services.PaymentService;
 import by.creatorlab.services.UserService;
@@ -30,7 +30,7 @@ public class AdminController {
 //----------------------------------------------------------------------------------------
     @GetMapping("/admin")
     public String mainAdmin() {
-        return "admin/admin";
+        return "admin/main";
     }
 //----------------------------------------------------------------------------------------
     @GetMapping("/admin/carList")
@@ -67,6 +67,7 @@ public class AdminController {
             new ImageDaoImpl(sessionFactory).create(imageCar);
         }
 
+        car = new DaoImpl(sessionFactory).findById(id);
         model.addAttribute("car",car);
         return "admin/cars/car";
     }
