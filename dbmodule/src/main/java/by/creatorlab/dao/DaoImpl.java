@@ -8,10 +8,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class DaoImpl implements Dao {
-
-    private SessionFactory sessionFactory;
-
-
+    private final SessionFactory sessionFactory;
     public DaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -32,8 +29,7 @@ public class DaoImpl implements Dao {
     public List<Car> readAll() {
         try (Session session = sessionFactory.openSession()) {
             String query = "from Car";
-            List<Car> carList = session.createQuery(query,Car.class).list();
-            return carList;
+            return session.createQuery(query,Car.class).list();
         }
     }
 
@@ -69,6 +65,4 @@ public class DaoImpl implements Dao {
             return session.get(Car.class, id);
         }
     }
-
-
 }

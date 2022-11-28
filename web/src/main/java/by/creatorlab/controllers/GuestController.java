@@ -1,8 +1,6 @@
 package by.creatorlab.controllers;
 
 import by.creatorlab.dao.DaoImpl;
-import by.creatorlab.configuration.DataConfig;
-import by.creatorlab.configuration.MysqlSessionFactory;
 import by.creatorlab.model.Car;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
@@ -13,26 +11,17 @@ import java.util.List;
 
 @Controller
 public class GuestController {
-
-    private List<Car> carList;
-    private Car car;
-    private final SessionFactory sessionFactory = MysqlSessionFactory
-            .getInstance(DataConfig.JDBC_PROPERTIES,DataConfig.HIBERNATE_PROPERTIES);
-
+    private static final SessionFactory sessionFactory = StaticSessionFactory.getInstance();
     @GetMapping("/guest")
     public String showCarList(Model model) {
-        carList = new DaoImpl(sessionFactory).readAll();
+        List<Car> carList = new DaoImpl(sessionFactory).readAll();
         model.addAttribute("carList",carList);
         return "guest/carList";
     }
 
     @GetMapping("/guest/{id}")
     public String showCarById(Model model, @PathVariable("id") int id) {
-        car = new DaoImpl(sessionFactory).findById(id);
-
-        System.out.println(car);
-
-
+        Car car = new DaoImpl(sessionFactory).findById(id);
         model.addAttribute("car",car);
         return "guest/car";
     }

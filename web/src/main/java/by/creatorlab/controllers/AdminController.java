@@ -2,8 +2,6 @@ package by.creatorlab.controllers;
 
 import by.creatorlab.dao.DaoImpl;
 import by.creatorlab.dao.ImageDaoImpl;
-import by.creatorlab.configuration.DataConfig;
-import by.creatorlab.configuration.MysqlSessionFactory;
 import by.creatorlab.model.*;
 import by.creatorlab.services.OrderService;
 import by.creatorlab.services.PaymentService;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.Base64;
@@ -24,9 +21,7 @@ import java.util.List;
 
 @Controller
 public class AdminController {
-    private final SessionFactory sessionFactory = MysqlSessionFactory
-            .getInstance(DataConfig.JDBC_PROPERTIES,DataConfig.HIBERNATE_PROPERTIES);
-
+private static final SessionFactory sessionFactory = StaticSessionFactory.getInstance();
 //----------------------------------------------------------------------------------------
     @GetMapping("/admin")
     public String mainAdmin() {
@@ -48,7 +43,12 @@ public class AdminController {
     }
 
     @PostMapping("/admin/edit/car/{id}")
-    public String editCar(HttpServletRequest request,Model model, @PathVariable("id") int id,@RequestParam("images") MultipartFile[] images) throws IOException {
+    public String editCar(
+            HttpServletRequest request,
+            Model model,
+            @PathVariable("id") int id,
+            @RequestParam("images") MultipartFile[] images
+    ) throws IOException {
 
         Car car = new DaoImpl(sessionFactory).findById(id);
         car.setName(request.getParameter("name"));
@@ -87,7 +87,11 @@ public class AdminController {
     }
 
     @PostMapping("/admin/add/car/new")
-    public String createCar(HttpServletRequest request, Model model, @RequestParam("images") MultipartFile[] images) throws IOException {
+    public String createCar(
+            HttpServletRequest request,
+            Model model,
+            @RequestParam("images") MultipartFile[] images
+    ) throws IOException {
         Car car = new Car();
         car.setName(request.getParameter("name"));
         car.setYear(Integer.parseInt(request.getParameter("year")));
@@ -102,8 +106,8 @@ public class AdminController {
             new ImageDaoImpl(sessionFactory).create(imageCar);
         }
 
-        Car newCar =  new DaoImpl(sessionFactory).findById(car.getId());
-        model.addAttribute("car",newCar);
+        car =  new DaoImpl(sessionFactory).findById(car.getId());
+        model.addAttribute("car",car);
         return "admin/cars/car";
     }
 //----------------------------------------------------------------------------------------
@@ -116,75 +120,45 @@ public class AdminController {
     }
 
     @GetMapping("/admin/user/{id}")
-    public String viewUser(Model model,@PathVariable("id") int id) { //int to Long
+    public String viewUser(Model model,@PathVariable("id") int id) {
         User user = new UserService().getUserList().get(id-1);
         model.addAttribute("user",user);
-        System.out.println("@GetMapping");
         return "admin/users/user";
     }
 
     @PostMapping("/admin/edit/user/{id}")
-    public String editUser(HttpServletRequest request,Model model, @PathVariable("id") int id) { // int to Long
+    public String editUser(HttpServletRequest request,Model model, @PathVariable("id") int id) {
         User user = new UserService().getUserList().get(id-1);
-
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String repeatPassword =request.getParameter("repeatPassword"); // Todo:
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-
-        user.setUsername(username);
-        user.setPassword(password);
-        //user.setRepeatPassword(password);
-        user.setEmail(email);
-        user.setPhone(phone);
-
-
-        System.out.println(user);
-
+        user.setUsername(request.getParameter("username"));
+        user.setPassword(request.getParameter("password"));
+        //user.setRepeatPassword(request.getParameter("repeatPassword"));
+        user.setEmail(request.getParameter("email"));
+        user.setPhone(request.getParameter("phone"));
         model.addAttribute("user",user);
-        System.out.println("EDIT SUCCESS!!!!!!!!!! @PostMapping"); //
         return "admin/users/user";
     }
 
     @GetMapping("/admin/delete/user/{id}")
     public String deleteUser(Model model, @PathVariable("id") int id) {
         List<User> userList = new UserService().getUserList();
-        //User user = new UserService().getUserList().get(id-1);
-
         model.addAttribute("userList",userList);
-        System.out.println("DELETE SUCCESS!!!!!! @GetMapping");//
         return "admin/users/userList";
     }
 
     @GetMapping("/admin/add/user")
     public String addUser() {
-        System.out.println("@GetMapping");//
         return "admin/users/formForNewUser";
     }
 
     @PostMapping("/admin/add/user/new")
     public String createUser(HttpServletRequest request,Model model) {
-
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String repeatPassword =request.getParameter("repeatPassword"); // Todo:
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        //user.setRepeatPassword(password);
-        user.setEmail(email);
-        user.setPhone(phone);
-
-
-        System.out.println(user);
-
+        user.setUsername(request.getParameter("username"));
+        user.setPassword(request.getParameter("password"));
+        //user.setRepeatPassword(request.getParameter("repeatPassword"));
+        user.setEmail(request.getParameter("email"));
+        user.setPhone(request.getParameter("phone"));
         model.addAttribute("user",user);
-        System.out.println("@PostMapping"); //
-
         return "admin/users/user";
     }
 

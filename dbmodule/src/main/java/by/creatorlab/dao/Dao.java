@@ -9,6 +9,5 @@ public interface Dao {
     List<Car> readAll();
     void update(Car car);
     void delete(Car car);
-
     Car findById(int id);
 }

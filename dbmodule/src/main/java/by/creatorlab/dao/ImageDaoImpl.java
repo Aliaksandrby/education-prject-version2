@@ -6,13 +6,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class ImageDaoImpl implements ImageDao {
-
-    private SessionFactory sessionFactory;
-
+    private final SessionFactory sessionFactory;
     public ImageDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-
     @Override
     public void create(ImageCar imageCar) {
         Transaction tx = null;
