@@ -34,7 +34,7 @@ private static final SessionFactory sessionFactory = StaticSessionFactory.getIns
 
         //List<Car> carList = new DaoImpl(sessionFactory).readAll();
 
-        List<Car> carList = new PagingService(sessionFactory).getCarPaging(4,4);
+        List<Car> carList = new PagingService(sessionFactory).getCarPaging(0,12);
 
         model.addAttribute("carList",carList);
         return "admin/cars/carList";
