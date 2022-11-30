@@ -3,6 +3,7 @@ package by.creatorlab.controllers;
 import by.creatorlab.dao.DaoImpl;
 import by.creatorlab.dao.ImageDaoImpl;
 import by.creatorlab.model.*;
+import by.creatorlab.paging.PagingService;
 import by.creatorlab.services.OrderService;
 import by.creatorlab.services.PaymentService;
 import by.creatorlab.services.UserService;
@@ -30,7 +31,11 @@ private static final SessionFactory sessionFactory = StaticSessionFactory.getIns
 //----------------------------------------------------------------------------------------
     @GetMapping("/admin/carList")
     public String viewCarList(Model model) {
-        List<Car> carList = new DaoImpl(sessionFactory).readAll();
+
+        //List<Car> carList = new DaoImpl(sessionFactory).readAll();
+
+        List<Car> carList = new PagingService(sessionFactory).getCarPaging(4,4);
+
         model.addAttribute("carList",carList);
         return "admin/cars/carList";
     }
