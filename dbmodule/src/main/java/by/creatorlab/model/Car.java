@@ -41,7 +41,7 @@ public class Car {
               cascade = CascadeType.REMOVE)
     private List<ImageCar> imageList;
 
-    /*@Override
+    @Override
     public String toString() {
         return "Car{" +
                 "id=" + id +
@@ -52,5 +52,5 @@ public class Car {
                 ", price=" + price +
                 ", imageList=" + imageList +
                 '}';
-    }*/
+    }
 }
