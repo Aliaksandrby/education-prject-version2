@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -30,20 +29,20 @@ private static final SessionFactory sessionFactory = StaticSessionFactory.getIns
         return "admin/main";
     }
 //----------------------------------------------------------------------------------------
-    @GetMapping("/admin/carList/{numberPage}")
+    @GetMapping("/admin/carList/{numberOfPage}")
     public String viewCarList(
             Model model,
-            @PathVariable("numberPage") int numberPage//,
-            //@PathVariable("numberOfCarsOnPage") int numberOfCarsOnPage
+            @PathVariable("numberOfPage") int numberOfPage
     ) {
 
         PagingService pagingService = new PagingService(sessionFactory);
         int numberOfCarsOnPage = 2;
         int numberOfCars = pagingService.getTotalNumbersOfCars();
         int numberOfPages = (int)Math.ceil(numberOfCars*1.0/numberOfCarsOnPage);
+        int startCar = numberOfCarsOnPage*(numberOfPage-1);
+        List carList = pagingService.getCarPaging(startCar,numberOfCarsOnPage);
 
-        List<Car> carList = pagingService.getCarPaging(numberPage-1,numberOfCarsOnPage);
-        System.out.println(carList);
+        model.addAttribute("currentPage",numberOfPage);
         model.addAttribute("numberOfCars",numberOfCars);
         model.addAttribute("numberOfPages",numberOfPages);
         model.addAttribute("carList",carList);
