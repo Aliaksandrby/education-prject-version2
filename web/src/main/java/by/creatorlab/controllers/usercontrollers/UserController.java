@@ -1,5 +1,6 @@
-package by.creatorlab.controllers;
+package by.creatorlab.controllers.usercontrollers;
 
+import by.creatorlab.controllers.StaticSessionFactory;
 import by.creatorlab.dao.DaoImpl;
 import by.creatorlab.model.Car;
 import org.hibernate.SessionFactory;

@@ -1,0 +1,49 @@
+#avrDiv {
+			margin-left: auto;
+			margin-right: auto;
+			width: 300px;
+			height: 400px;
+		}
+
+		.warning {
+			border: 1px ridge black;
+			background-color: white;
+			padding: 1rem;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.warning img {
+			width: 280px;
+		}
+
+		.warning p {
+			font: small-caps bold 1.2rem sans-serif;
+			text-align: center;
+		}
+
+
+		.center {
+    text-align: center;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}

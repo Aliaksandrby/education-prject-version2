@@ -3,32 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cars</title>
-    <style>
-		#avrDiv {
-			margin-left: auto;
-			margin-right: auto;
-			width: 300px;
-			height: 400px;
-		}
-
-		.warning {
-			border: 1px ridge black;
-			background-color: white;
-			padding: 1rem;
-			display: flex;
-			flex-direction: column;
-		}
-
-		.warning img {
-			width: 280px;
-		}
-
-		.warning p {
-			font: small-caps bold 1.2rem sans-serif;
-			text-align: center;
-		}
-
-	</style>
+    <link href="/css/admin/cars/carList.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <h1 align="center">Admin Car List</h1>
@@ -50,16 +25,17 @@
     <br>
 </div>
 
-<div align="center">
-    <span>
-        <a th:text="${currentPage > 1} ? '&laquo;' : '&Oslash;'" href="#"></a>
-    </span>
-    <span th:each="i : ${#numbers.sequence(1, numberOfPages)}">
-        <a th:text="${i<4} ? ${i}:''" th:href="@{/admin/carList/{i}(i=${i})}"></a>
-    </span>
-    <span>
-        <a th:text="${currentPage!=numberOfPages} ? '&raquo;' : '&Oslash;'" href="#"></a>
-    </span>
+<div class="center">
+    <div class="pagination">
+        <a th:text="${currentPage > 1} ? '&laquo;':''"
+           th:href="${currentPage == 1} ? '' : @{/admin/carList/{count}(count=${currentPage-1})}"></a>
+        <a th:each="i : ${#numbers.sequence(startPage, endPage)}"
+           th:href="@{/admin/carList/{i}(i=${i})}"
+           th:class="${i==currentPage} ? 'active'"
+           th:text="${i}"></a>
+        <a th:text="${currentPage!=numberOfPages} ? '&raquo;':''"
+           th:href="${currentPage < numberOfPages} ? @{/admin/carList/{count}(count=${currentPage+1})}"></a>
+    </div>
 </div>
 
 </body>
