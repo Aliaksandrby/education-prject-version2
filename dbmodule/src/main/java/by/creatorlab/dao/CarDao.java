@@ -4,7 +4,7 @@ import by.creatorlab.model.Car;
 
 import java.util.List;
 
-public interface Dao {
+public interface CarDao {
     void create(Car car);
     List<Car> readAll();
     void update(Car car);

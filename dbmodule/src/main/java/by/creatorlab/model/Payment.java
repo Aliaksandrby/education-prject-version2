@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Payment {
-    private Long id;
+    private Integer id;
     private String namePayment;
 }

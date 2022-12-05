@@ -1,17 +1,17 @@
 package by.creatorlab.dao;
 
 import by.creatorlab.model.Car;
+import by.creatorlab.sessionfactory.StaticSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public class DaoImpl implements Dao {
-    private final SessionFactory sessionFactory;
-    public DaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+@Repository
+public class CarDaoImpl implements CarDao {
+    private static final SessionFactory sessionFactory = StaticSessionFactory.getInstance();
     @Override
     public void create(Car car) {
         Transaction tx = null;

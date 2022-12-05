@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Order {
-    private Long id;
+    private Integer id;
     private Long userId;
     private Long carId;
 }

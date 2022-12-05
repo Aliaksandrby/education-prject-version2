@@ -1,15 +1,15 @@
 package by.creatorlab.dao;
 
 import by.creatorlab.model.ImageCar;
+import by.creatorlab.sessionfactory.StaticSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ImageDaoImpl implements ImageDao {
-    private final SessionFactory sessionFactory;
-    public ImageDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    private static final SessionFactory sessionFactory = StaticSessionFactory.getInstance();
     @Override
     public void create(ImageCar imageCar) {
         Transaction tx = null;

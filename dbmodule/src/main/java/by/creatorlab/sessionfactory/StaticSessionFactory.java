@@ -1,4 +1,4 @@
-package by.creatorlab.controllers;
+package by.creatorlab.sessionfactory;
 
 import by.creatorlab.configuration.DataConfig;
 import by.creatorlab.configuration.MysqlSessionFactory;

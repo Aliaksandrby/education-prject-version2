@@ -1,14 +1,14 @@
-package by.creatorlab.paging;
+package by.creatorlab.services.paging;
 
+import by.creatorlab.sessionfactory.StaticSessionFactory;
 import org.hibernate.SessionFactory;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+@Service
 public class PagingService {
     private final int numberOfCarsOnPage = 1;
-    private final SessionFactory sessionFactory;
-    public PagingService(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    private static final SessionFactory sessionFactory = StaticSessionFactory.getInstance();
     public List getCarPaging(int currentPage) {
         return sessionFactory
                 .openSession()
@@ -46,6 +46,9 @@ public class PagingService {
         int endPage;
         if(currentPage < 5) {
             endPage = Math.min(getNumberOfPages(), 5);
+            if(getNumberOfPages() == 0) {
+                endPage = 1;
+            }
         } else {
             if(getNumberOfPages() == currentPage) {
                 endPage = currentPage;

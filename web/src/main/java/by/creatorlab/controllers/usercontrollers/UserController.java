@@ -1,7 +1,6 @@
 package by.creatorlab.controllers.usercontrollers;
 
-import by.creatorlab.controllers.StaticSessionFactory;
-import by.creatorlab.dao.DaoImpl;
+import by.creatorlab.dao.CarDaoImpl;
 import by.creatorlab.model.Car;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
@@ -14,25 +13,24 @@ import java.util.List;
 
 @Controller
 public class UserController {
-    private static final SessionFactory sessionFactory = StaticSessionFactory.getInstance();
 
     @GetMapping("/user")
     public String showCarList(Model model) {
-        List<Car> carList = new DaoImpl(sessionFactory).readAll();
+        List<Car> carList = new CarDaoImpl().readAll();
         model.addAttribute("carList",carList);
         return "user/carList";
     }
 
     @GetMapping("/user/{id}")
     public String showCarById(Model model, @PathVariable("id") int id) {
-        Car car = new DaoImpl(sessionFactory).findById(id);
+        Car car = new CarDaoImpl().findById(id);
         model.addAttribute("car",car);
         return "user/car";
     }
 
     @GetMapping("/user/pay/{id}")
     public String payCar(Model model, @PathVariable("id") int id) {
-        Car car = new DaoImpl(sessionFactory).findById(id);
+        Car car = new CarDaoImpl().findById(id);
         model.addAttribute("car",car);
         return "user/formPayCar";
     }
