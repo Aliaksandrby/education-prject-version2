@@ -1,8 +1,6 @@
 package by.creatorlab.controllers.admincontrollers.carscontrollers;
 
 import by.creatorlab.services.admin.cars.CarDeleteService;
-import by.creatorlab.services.admin.cars.CarShowService;
-import by.creatorlab.services.paging.PagingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

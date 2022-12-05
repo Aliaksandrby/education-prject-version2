@@ -36,7 +36,7 @@
             INSERT INTO t_image_car_seq VALUES (0);-->
         </sql>
     </changeSet>
-    <!--<changeSet id="2" author="Aliaksandrby">
+    <!--<changeSet id="2" author="Aliaksandr.by">
         <sql>
             INSERT INTO t_car (name,year,engine_description,transmission,price)
             VALUES

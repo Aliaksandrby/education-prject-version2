@@ -1,6 +1,6 @@
 package by.creatorlab.controllers.admincontrollers.carscontrollers;
 
-import by.creatorlab.services.admin.cars.CarShowService;
+import by.creatorlab.services.showServices.CarShowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

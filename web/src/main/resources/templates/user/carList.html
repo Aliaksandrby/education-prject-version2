@@ -3,30 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Cars</title>
-  <style>
-		#avrDiv {
-			margin-left: auto;
-			margin-right: auto;
-			width: 300px;
-		}
-
-		.warning {
-			border: 1px ridge black;
-			background-color: white;
-			padding: 1rem;
-			display: flex;
-			flex-direction: column;
-		}
-
-		.warning img {
-			width: 280px;
-		}
-
-		.warning p {
-			font: small-caps bold 1.2rem sans-serif;
-			text-align: center;
-		}
-	</style>
+  <link href="/css/user/carList.css" rel="stylesheet" type="text/css">
+  <link href="/css/a_without_underline.css" rel="stylesheet" type="text/css">
+  <link href="/css/paging.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <h1 align="center">Make a choose</h1>
@@ -43,6 +22,19 @@
     </div>
   </div>
   <br>
+</div>
+
+<div class="center">
+  <div class="pagination">
+    <a th:text="${currentPage > 1} ? '&laquo;':''"
+       th:href="${currentPage == 1} ? '' : @{/user/carList/{count}(count=${currentPage-1})}"></a>
+    <a th:each="i : ${#numbers.sequence(startPage, endPage)}"
+       th:href="@{/user/carList/{i}(i=${i})}"
+       th:class="${i==currentPage} ? 'active'"
+       th:text="${i}"></a>
+    <a th:text="${currentPage!=numberOfPages} ? '&raquo;':''"
+       th:href="${currentPage < numberOfPages} ? @{/user/carList/{count}(count=${currentPage+1})}"></a>
+  </div>
 </div>
 </body>
 </html>

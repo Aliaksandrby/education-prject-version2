@@ -2,31 +2,15 @@ package by.creatorlab.controllers.usercontrollers;
 
 import by.creatorlab.dao.CarDaoImpl;
 import by.creatorlab.model.Car;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
-public class UserController {
-
-    @GetMapping("/user")
-    public String showCarList(Model model) {
-        List<Car> carList = new CarDaoImpl().readAll();
-        model.addAttribute("carList",carList);
-        return "user/carList";
-    }
-
-    @GetMapping("/user/{id}")
-    public String showCarById(Model model, @PathVariable("id") int id) {
-        Car car = new CarDaoImpl().findById(id);
-        model.addAttribute("car",car);
-        return "user/car";
-    }
+public class UserPayForCarController {
 
     @GetMapping("/user/pay/{id}")
     public String payCar(Model model, @PathVariable("id") int id) {

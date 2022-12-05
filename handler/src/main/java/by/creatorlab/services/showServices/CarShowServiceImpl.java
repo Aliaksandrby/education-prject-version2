@@ -1,4 +1,4 @@
-package by.creatorlab.services.admin.cars;
+package by.creatorlab.services.showServices;
 
 import by.creatorlab.dao.CarDao;
 import by.creatorlab.model.Car;
