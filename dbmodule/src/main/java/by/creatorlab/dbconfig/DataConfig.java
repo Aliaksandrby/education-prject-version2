@@ -1,11 +1,12 @@
-package by.creatorlab.newConfig;
+package by.creatorlab.dbconfig;
 
 import by.creatorlab.model.Car;
 import by.creatorlab.model.ImageCar;
-import lombok.SneakyThrows;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,36 +20,21 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = "by.creator")
+@ComponentScan(basePackages = "by.creatorlab")
 @PropertySource(value = {
         "classpath:/jdbc.properties",
         "classpath:/hibernate.properties"
 })
+
+@EnableAutoConfiguration(exclude= HibernateJpaAutoConfiguration.class)
 @EnableTransactionManagement
 public class DataConfig {
-
-    public static final String JDBC_PROPERTIES_FILE_NAME = "jdbc.properties";
-    public static final String HIBERNATE_PROPERTIES_FILE_NAME = "hibernate.properties";
-
-    private static Properties jdbcProperties;
-
-
-    @SneakyThrows
-    public static Properties getJdbcProperties(String propertyFileName) {
-        if (jdbcProperties == null) {
-            jdbcProperties = new Properties();
-            jdbcProperties.load(MysqlJdbcDataSource.class
-                    .getClassLoader()
-                    .getResourceAsStream(propertyFileName));
-        }
-        return jdbcProperties;
-    }
 
     @Bean
     public Properties hibernateProperties(
             @Value("${hibernate.show_sql}") String showSql,
             @Value("true") String debug,
-            @Value("${dialect}") String dialect,
+            @Value("${hibernate.dialect}") String dialect,
             @Value("${hibernate.format_sql}") String format
     ) {
         Properties hibernateProperties = new Properties();
@@ -81,10 +67,8 @@ public class DataConfig {
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory(DataSource dataSource,
-                                                  Properties hibernateProperties) {
-        LocalSessionFactoryBean sessionFactory =
-                new LocalSessionFactoryBean();
+    public LocalSessionFactoryBean sessionFactory(DataSource dataSource,Properties hibernateProperties) {
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
         sessionFactory.setAnnotatedClasses(
                 Car.class,

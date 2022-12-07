@@ -21,4 +21,9 @@ public class GuestCarListShowController {
         model.addAttribute("carList",pagingService.getCarPaging(currentPage));
         return "guest/carList";
     }
+
+    @GetMapping("/")
+    public String showCarList() {
+        return "redirect:guest/carList/1";
+    }
 }

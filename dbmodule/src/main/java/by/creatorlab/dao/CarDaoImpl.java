@@ -1,68 +1,42 @@
 package by.creatorlab.dao;
 
 import by.creatorlab.model.Car;
-import by.creatorlab.sessionfactory.StaticSessionFactory;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class CarDaoImpl implements CarDao {
-    private static final SessionFactory sessionFactory = StaticSessionFactory.getInstance();
+    @Autowired
+    private SessionFactory sessionFactory;
     @Override
     public void create(Car car) {
-        Transaction tx = null;
-        try (Session session = sessionFactory.openSession()) {
-            tx = session.beginTransaction();
-            session.save(car);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw e;
-        }
+        sessionFactory.getCurrentSession().save(car);
     }
 
     @Override
     public List<Car> readAll() {
-        try (Session session = sessionFactory.openSession()) {
-            String query = "from Car";
-            return session.createQuery(query,Car.class).list();
-        }
+        String query = "from Car";
+        return sessionFactory.getCurrentSession().createQuery(query, Car.class).list();
     }
 
     @Override
     public void update(Car car) {
-        Transaction tx = null;
-        try (Session session = sessionFactory.openSession()) {
-            tx = session.beginTransaction();
-            session.update(car);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw e;
-        }
+        sessionFactory.getCurrentSession().update(car);
     }
 
     @Override
     public void delete(Car car) {
-        Transaction tx = null;
-        try (Session session = sessionFactory.openSession()) {
-            tx = session.beginTransaction();
-            session.delete(car);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw e;
-        }
+        Car loadedCar = sessionFactory.getCurrentSession().load(Car.class, car.getId());
+        sessionFactory.getCurrentSession().delete(loadedCar);
     }
 
     @Override
     public Car findById(int id) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.get(Car.class, id);
-        }
+        return sessionFactory.getCurrentSession().get(Car.class, id);
     }
 }

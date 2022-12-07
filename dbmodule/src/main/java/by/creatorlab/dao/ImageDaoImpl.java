@@ -1,51 +1,30 @@
 package by.creatorlab.dao;
 
 import by.creatorlab.model.ImageCar;
-import by.creatorlab.sessionfactory.StaticSessionFactory;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Repository
+@Transactional
 public class ImageDaoImpl implements ImageDao {
-    private static final SessionFactory sessionFactory = StaticSessionFactory.getInstance();
+    @Autowired
+    private SessionFactory sessionFactory;
     @Override
     public void create(ImageCar imageCar) {
-        Transaction tx = null;
-        try (Session session = sessionFactory.openSession()) {
-            tx = session.beginTransaction();
-            session.save(imageCar);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw e;
-        }
+        sessionFactory.getCurrentSession().save(imageCar);
     }
 
     @Override
     public void delete(ImageCar imageCar) {
-        Transaction tx = null;
-        try (Session session = sessionFactory.openSession()) {
-            tx = session.beginTransaction();
-            session.delete(imageCar);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw e;
-        }
+        ImageCar loadedImageCar = sessionFactory.getCurrentSession().load(ImageCar.class, imageCar.getId());
+        sessionFactory.getCurrentSession().delete(loadedImageCar);
     }
 
     @Override
     public void update(ImageCar imageCar) {
-        Transaction tx = null;
-        try (Session session = sessionFactory.openSession()) {
-            tx = session.beginTransaction();
-            session.update(imageCar);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw e;
-        }
+        sessionFactory.getCurrentSession().update(imageCar);
     }
 }

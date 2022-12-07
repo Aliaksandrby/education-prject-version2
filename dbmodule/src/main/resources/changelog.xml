@@ -15,27 +15,41 @@
                 transmission VARCHAR(100),
                 price INT
             );
-
-            <!--if we use sequence generator-->
-            <!--CREATE TABLE IF NOT EXISTS t_car_seq (
-            next_val INT UNSIGNED PRIMARY KEY NOT NULL
-            );
-            INSERT INTO t_car_seq VALUES (0);-->
-
+        </sql>
+    </changeSet>
+    <changeSet id="2" author="Aliaksandr.by">
+        <sql>
             CREATE TABLE IF NOT EXISTS t_image_car (
                 id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                 car_id INT,
                 image MEDIUMBLOB,
                 FOREIGN KEY (car_id) REFERENCES t_car (id)
             );
-
-            <!--if we use sequence generator-->
-            <!--CREATE TABLE IF NOT EXISTS t_image_car_seq (
-            next_val INT UNSIGNED PRIMARY KEY NOT NULL
-            );
-            INSERT INTO t_image_car_seq VALUES (0);-->
         </sql>
     </changeSet>
+    <changeSet id="3" author="Aliaksandr.by">
+        <sql>
+            CREATE TABLE IF NOT EXISTS t_role (
+                id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                name VARCHAR(20)
+            );
+
+            INSERT INTO t_role(id, name)
+            VALUES (1, 'ROLE_USER'), (2, 'ROLE_ADMIN');
+        </sql>
+    </changeSet>
+    <!--<changeSet id="4" author="Aliaksandr.by">
+        <sql>
+            CREATE TABLE IF NOT EXISTS t_user_roles (
+                id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                user_id INT,
+                roles_id INT
+            );
+
+            INSERT INTO public.t_user_roles(user_id, roles_id)
+            VALUES (1, 2);
+        </sql>
+    </changeSet>-->
     <!--<changeSet id="2" author="Aliaksandr.by">
         <sql>
             INSERT INTO t_car (name,year,engine_description,transmission,price)

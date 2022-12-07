@@ -1,15 +1,20 @@
 package by.creatorlab.services.paging;
 
-import by.creatorlab.sessionfactory.StaticSessionFactory;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
 public class PagingService {
     private final int numberOfCarsOnPage = 1;
-    private static final SessionFactory sessionFactory = StaticSessionFactory.getInstance();
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    @Transactional
     public List getCarPaging(int currentPage) {
+        System.out.println("MY SESSION FACTORY---" + sessionFactory);
         return sessionFactory
                 .openSession()
                 .createQuery("from Car")
@@ -17,6 +22,7 @@ public class PagingService {
                 .setMaxResults(numberOfCarsOnPage)
                 .list();
     }
+    @Transactional
     public int getTotalNumbersOfCars() {
         return sessionFactory
                 .openSession()
