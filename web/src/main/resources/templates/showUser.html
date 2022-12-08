@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>edit/view users</title>
+    <link href="/css/table.css" rel="stylesheet" type="text/css">
+    <link href="/css/teg_a.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1 align="center">USERS</h1>
+<h3 align="center"><a href="/index/user/add">add user</a></h3>
+<table class="rounded" align="center">
+    <tr>
+        <th>id</th>
+        <th>username</th>
+        <th>password</th>
+        <th>email</th>
+        <th>phone</th>
+        <th>role</th>
+        <th>edit</th>
+        <th>del</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td><input th:value="${user.username}"></td>
+        <td><input th:value="${user.password}"></td>
+        <td><input th:value="${user.email}"></td>
+        <td><input th:value="${user.phone}"></td>
+        <td><input th:value="${user.role}"></td>
+        <td>
+            <button><a th:href="@{/index/edit/user/{id}(id=${user.id})}">edit</a></button>
+        </td>
+        <td>
+            <button><a th:href="@{/index/delete/user/{id}(id=${user.id})}">delete</a></button>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

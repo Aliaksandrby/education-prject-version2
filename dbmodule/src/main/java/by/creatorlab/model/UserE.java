@@ -12,12 +12,16 @@ public class UserE {//implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "username")
     //@Size(min=2, message = "Не меньше 5 знаков")
     private String username;
+
+    @Column(name = "password")
     //@Size(min=2, message = "Не меньше 5 знаков")
     private String password;
     @Transient
     private String passwordConfirm;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 

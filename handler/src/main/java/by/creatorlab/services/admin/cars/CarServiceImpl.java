@@ -9,8 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -23,11 +28,17 @@ public class CarServiceImpl implements CarService {
     @Transactional
     public Car addCar(Car car, MultipartFile[] images) throws IOException {
         carDao.create(car);
-        for (MultipartFile image : images) {
+        if (!(images.length==1 && Objects.equals(images[0].getOriginalFilename(), ""))) {
+            List<ImageCar> imageCarList = addImagesToCar(car,images);
+            car.setImageList(imageCarList);
+        } else {
             ImageCar imageCar = new ImageCar();
             imageCar.setCar(car);
-            imageCar.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
+            File file = new File("/img/noAuto.png");
+            byte[] image = new byte[(int)file.length()];
+            imageCar.setImage(Base64.getEncoder().encodeToString(image));
             imageDao.create(imageCar);
+            car.setImageList(List.of(imageCar));
         }
         return carDao.findById(car.getId());
     }
@@ -41,27 +52,37 @@ public class CarServiceImpl implements CarService {
 
     @Override
     @Transactional
-    public Car editCar(Car car, int id, MultipartFile[] images) throws IOException { // don't work correctly
-        car = carDao.findById(id);
+    public Car editCar(HttpServletRequest request, int id, MultipartFile[] images) throws IOException {
+        Car car = carDao.findById(id);
+        car.setName(request.getParameter("name"));
+        car.setYear(Integer.parseInt(request.getParameter("year")));
+        car.setEngineDescription(request.getParameter("engineDescription"));
+        car.setTransmission(request.getParameter("transmission"));
+        car.setPrice(Integer.parseInt(request.getParameter("price")));
         carDao.update(car);
-        //TODO: if images = {} don't delete else delete images
-        for (ImageCar imageCar : car.getImageList()) imageDao.delete(imageCar);
-
-        for (MultipartFile image : images) {
-            ImageCar imageCar = new ImageCar();
-            imageCar.setCar(car);
-            imageCar.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
-            imageDao.create(imageCar);
+        if (!(images.length == 1 && Objects.equals(images[0].getOriginalFilename(), ""))) {
+            deleteAllImagesFromTheCar(car);
+            List<ImageCar> imageCarList = addImagesToCar(car,images);
+            car.setImageList(imageCarList);
         }
-        return carDao.findById(id);
+        return carDao.findById(car.getId());
     }
 
-    public void changeImages(Car car, MultipartFile[] images) throws IOException {
+    private void deleteAllImagesFromTheCar(Car car) {
+        for (ImageCar ic : car.getImageList()) {
+            imageDao.delete(ic);
+        }
+    }
+
+    private List<ImageCar> addImagesToCar(Car car,MultipartFile[] images) throws IOException{
+        List<ImageCar> imageCarList = new ArrayList<>();
         for (MultipartFile image : images) {
             ImageCar imageCar = new ImageCar();
             imageCar.setCar(car);
             imageCar.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
+            imageCarList.add(imageCar);
             imageDao.create(imageCar);
         }
+        return imageCarList;
     }
 }

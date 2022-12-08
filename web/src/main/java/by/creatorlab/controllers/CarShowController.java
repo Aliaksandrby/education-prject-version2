@@ -1,4 +1,4 @@
-package by.creatorlab.controllers.admincontrollers.carscontrollers;
+package by.creatorlab.controllers;
 
 import by.creatorlab.services.showServices.CarShowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-public class AdminCarShowController {
+public class CarShowController {
     @Autowired
     private CarShowService carShowService;
-    @GetMapping("/admin/car/{id}")
+    @GetMapping("/index/car/{id}")
     public String viewCar(Model model, @PathVariable("id") int id) {
         model.addAttribute("car",carShowService.getCar(id));
-        return "admin/cars/car";
+        return "showCar";
     }
 }

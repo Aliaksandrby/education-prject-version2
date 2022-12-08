@@ -1,4 +1,4 @@
-package by.creatorlab.controllers.admincontrollers.carscontrollers;
+package by.creatorlab.controllers;
 
 import by.creatorlab.model.Car;
 import by.creatorlab.services.admin.cars.CarService;
@@ -13,16 +13,16 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Controller
-public class AdminCarAddController {
+public class CarAddController {
     @Autowired
     private CarService carService;
-    @GetMapping("/admin/add/car")
+    @GetMapping("/index/add/car")
     public String addCar() {
-        return "admin/cars/formForNewCar";
+        return "formForNewCar";
     }
-    @PostMapping("/admin/add/car/new")
+    @PostMapping("/index/add/car")
     public String createCar(Car car, Model model, @RequestParam("images") MultipartFile[] images) throws IOException {
         model.addAttribute("car",carService.addCar(car, images));
-        return "admin/cars/car";
+        return "showCar";
     }
 }

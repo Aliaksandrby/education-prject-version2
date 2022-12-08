@@ -14,7 +14,6 @@ public class PagingService {
 
     @Transactional
     public List getCarPaging(int currentPage) {
-        System.out.println("MY SESSION FACTORY---" + sessionFactory);
         return sessionFactory
                 .openSession()
                 .createQuery("from Car")
